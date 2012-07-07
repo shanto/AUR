@@ -1,0 +1,29 @@
+# Contributor: Jesus Jerez <jhuss@archlinux.org.ve>
+# Maintainer: Ng Oon-Ee <  n g  o o n  e e AT g m a i l DOT c o m>
+
+pkgname=eclipse-linuxtools
+pkgver=0.10
+pkgrel=1
+pkgdesc="Eclipse Linux Tools Project"
+url="http://www.eclipse.org/linuxtools"
+arch=('any')
+license=('EPL')
+depends=('eclipse-cdt')
+makedepends=('unzip')
+source=("http://download.eclipse.org/technology/linuxtools/linuxtools-${pkgver}-incubation.zip")
+md5sums=('63a94045ae53d442b903726f4b5e388f')
+
+build() {
+
+  _dest=${pkgdir}/usr/share/eclipse/dropins/${pkgname#eclipse-}
+  _src=${srcdir}/`find . -name repository`
+
+  cd ${_src}
+
+  install -dm755 ${_dest}/
+  find features plugins -type f -name '*.jar' | while read jar ; do
+    install -dm755 ${_dest}/${jar%*.jar}
+    cd ${_dest}/${jar/.jar}
+    jar xf ${_src}/${jar}
+  done
+}

@@ -1,0 +1,32 @@
+# Maintainer: Shanto
+
+pkgname=gam
+pkgver=2.2
+pkgrel=1
+holdver=$pkgver
+pkgdesc="CLI frontend to Google Apps Provisioning API"
+arch=('any')
+url="http://code.google.com/p/google-apps-manager/"
+license=('Apache')
+depends=('python2')
+makedepends=('unzip')
+optdepends=()
+provides=()
+source=("http://google-apps-manager.googlecode.com/files/gam-${pkgver}-python-src.zip")
+noextract=("gam-${pkgver}-python-src.zip")
+md5sums=('26d7a7578303ed0443ae82c143dd9955')
+
+build() {
+	cd $srcdir
+	unzip -qo "gam-${pkgver}-python-src.zip" -d build
+}
+
+package() {
+	cd "${srcdir}/build"
+	install -d ${pkgdir}/opt/${pkgname}
+	install -d ${pkgdir}/usr/bin
+	cp -af * ${pkgdir}/opt/${pkgname}/
+	echo "python2 /opt/${pkgname}/gam.py \"\$@\"" > ${pkgdir}/usr/bin/gam
+	chmod 0755 ${pkgdir}/usr/bin/gam
+	rm -rf ../build
+}
