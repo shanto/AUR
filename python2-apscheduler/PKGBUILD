@@ -12,7 +12,8 @@ license=('MIT')
 depends=('python2'
          'python2-pytz'
          'python2-tzlocal'
-         'python2-futures')
+         'python2-futures'
+         'python2-six')
 #makedepends=()
 #provides=()
 #conflicts=()
